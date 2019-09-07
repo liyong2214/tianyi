@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="tianyi-trade-controller:war">
+    <output-path>$PROJECT_DIR$/tianyi-trade/tianyi-trade-controller/target</output-path>
+    <root id="archive" name="tianyi-trade-controller-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="tianyi-trade-controller:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="tianyi-common" />
+        <module name="tianyi-trade-common" />
+        <module name="tianyi-trade-controller" />
+        <module name="tianyi-trade-entity" />
+        <module name="tianyi-trade-mapper" />
+        <module name="tianyi-trade-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="8">
+      <module name="tianyi" target="1.8" />
+      <module name="tianyi-common" target="1.8" />
+      <module name="tianyi-trade" target="1.8" />
+      <module name="tianyi-trade-common" target="1.8" />
+      <module name="tianyi-trade-controller" target="1.8" />
+      <module name="tianyi-trade-entity" target="1.8" />
+      <module name="tianyi-trade-mapper" target="1.8" />
+      <module name="tianyi-trade-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
