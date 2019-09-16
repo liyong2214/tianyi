@@ -1,7 +1,7 @@
 package com.tianyi.trade.mapper;
 
-import com.tianyi.trade.TradeCustomer;
-import com.tianyi.trade.TradeCustomerExample;
+import com.tianyi.trade.model.TradeCustomer;
+import com.tianyi.trade.model.TradeCustomerExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

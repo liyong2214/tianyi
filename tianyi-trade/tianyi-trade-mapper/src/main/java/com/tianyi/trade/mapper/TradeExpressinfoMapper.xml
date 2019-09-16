@@ -3,8 +3,9 @@
 <mapper namespace="com.tianyi.trade.mapper.TradeExpressinfoMapper">
   <resultMap id="BaseResultMap" type="com.tianyi.trade.model.TradeExpressinfo">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="express_id" jdbcType="BIGINT" property="expressId" />
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
-    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="express_type" jdbcType="INTEGER" property="expressType" />
     <result column="pay_type" jdbcType="INTEGER" property="payType" />
     <result column="express_cost" jdbcType="DECIMAL" property="expressCost" />
@@ -80,9 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_id, customer_id, express_type, pay_type, express_cost, remitter, express_address, 
-    postcode, receiver, receive_time, receiver_address, receiver_email, receiver_contact, 
-    receiver_mobile, note, create_time, update_time
+    id, express_id, order_id, username, express_type, pay_type, express_cost, remitter, 
+    express_address, postcode, receiver, receive_time, receiver_address, receiver_email, 
+    receiver_contact, receiver_mobile, note, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.tianyi.trade.model.TradeExpressinfoExample" resultMap="BaseResultMap">
     select
@@ -115,27 +116,32 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.tianyi.trade.model.TradeExpressinfo" useGeneratedKeys="true">
-    insert into trade_expressinfo (order_id, customer_id, express_type, 
-      pay_type, express_cost, remitter, 
-      express_address, postcode, receiver, 
-      receive_time, receiver_address, receiver_email, 
-      receiver_contact, receiver_mobile, note, 
-      create_time, update_time)
-    values (#{orderId,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{expressType,jdbcType=INTEGER}, 
-      #{payType,jdbcType=INTEGER}, #{expressCost,jdbcType=DECIMAL}, #{remitter,jdbcType=VARCHAR}, 
-      #{expressAddress,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
-      #{receiveTime,jdbcType=TIMESTAMP}, #{receiverAddress,jdbcType=VARCHAR}, #{receiverEmail,jdbcType=VARCHAR}, 
-      #{receiverContact,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into trade_expressinfo (express_id, order_id, username, 
+      express_type, pay_type, express_cost, 
+      remitter, express_address, postcode, 
+      receiver, receive_time, receiver_address, 
+      receiver_email, receiver_contact, receiver_mobile, 
+      note, create_time, update_time
+      )
+    values (#{expressId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, 
+      #{expressType,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, #{expressCost,jdbcType=DECIMAL}, 
+      #{remitter,jdbcType=VARCHAR}, #{expressAddress,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, 
+      #{receiver,jdbcType=VARCHAR}, #{receiveTime,jdbcType=TIMESTAMP}, #{receiverAddress,jdbcType=VARCHAR}, 
+      #{receiverEmail,jdbcType=VARCHAR}, #{receiverContact,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.tianyi.trade.model.TradeExpressinfo" useGeneratedKeys="true">
     insert into trade_expressinfo
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expressId != null">
+        express_id,
+      </if>
       <if test="orderId != null">
         order_id,
       </if>
-      <if test="customerId != null">
-        customer_id,
+      <if test="username != null">
+        username,
       </if>
       <if test="expressType != null">
         express_type,
@@ -184,11 +190,14 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expressId != null">
+        #{expressId,jdbcType=BIGINT},
+      </if>
       <if test="orderId != null">
         #{orderId,jdbcType=BIGINT},
       </if>
-      <if test="customerId != null">
-        #{customerId,jdbcType=BIGINT},
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="expressType != null">
         #{expressType,jdbcType=INTEGER},
@@ -249,11 +258,14 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.expressId != null">
+        express_id = #{record.expressId,jdbcType=BIGINT},
+      </if>
       <if test="record.orderId != null">
         order_id = #{record.orderId,jdbcType=BIGINT},
       </if>
-      <if test="record.customerId != null">
-        customer_id = #{record.customerId,jdbcType=BIGINT},
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
       </if>
       <if test="record.expressType != null">
         express_type = #{record.expressType,jdbcType=INTEGER},
@@ -308,8 +320,9 @@
   <update id="updateByExample" parameterType="map">
     update trade_expressinfo
     set id = #{record.id,jdbcType=BIGINT},
+      express_id = #{record.expressId,jdbcType=BIGINT},
       order_id = #{record.orderId,jdbcType=BIGINT},
-      customer_id = #{record.customerId,jdbcType=BIGINT},
+      username = #{record.username,jdbcType=VARCHAR},
       express_type = #{record.expressType,jdbcType=INTEGER},
       pay_type = #{record.payType,jdbcType=INTEGER},
       express_cost = #{record.expressCost,jdbcType=DECIMAL},
@@ -332,11 +345,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.trade.model.TradeExpressinfo">
     update trade_expressinfo
     <set>
+      <if test="expressId != null">
+        express_id = #{expressId,jdbcType=BIGINT},
+      </if>
       <if test="orderId != null">
         order_id = #{orderId,jdbcType=BIGINT},
       </if>
-      <if test="customerId != null">
-        customer_id = #{customerId,jdbcType=BIGINT},
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="expressType != null">
         express_type = #{expressType,jdbcType=INTEGER},
@@ -388,8 +404,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tianyi.trade.model.TradeExpressinfo">
     update trade_expressinfo
-    set order_id = #{orderId,jdbcType=BIGINT},
-      customer_id = #{customerId,jdbcType=BIGINT},
+    set express_id = #{expressId,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=BIGINT},
+      username = #{username,jdbcType=VARCHAR},
       express_type = #{expressType,jdbcType=INTEGER},
       pay_type = #{payType,jdbcType=INTEGER},
       express_cost = #{expressCost,jdbcType=DECIMAL},

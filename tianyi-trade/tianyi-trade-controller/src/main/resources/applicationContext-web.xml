@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--SpringMVC的配置-->
+    <!--包扫描-->
+    <context:component-scan base-package="com.tianyi.trade.controller"/>
+
+    <!--注解驱动 -->
+    <mvc:annotation-driven/>
+
+    <!--配置静态资源不被拦截-->
+    <mvc:default-servlet-handler/>
+    <!--Excel文件导出-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    <!--视图解析器  可配置 可以不配置 -->
+
+    <!--定时任务-->
+    <bean id="deliveryOrderTask" class="com.tianyi.trade.quartz.DeliveryOrderTask"/>
+    <bean id="invokingJobDetailFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="deliveryOrderTask"/>
+        </property>
+        <property name="targetMethod">
+            <value>generateDeliveryOrder</value>
+        </property>
+    </bean>
+
+    <bean id="triggerFactoryBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="name" value="work_default_name"/>
+        <property name="group" value="work_default"/>
+        <property name="jobDetail">
+            <ref bean="invokingJobDetailFactoryBean"/>
+        </property>
+        <property name="cronExpression">
+            <value>* * 24 * * ? </value>
+        </property>
+    </bean>
+    <!--触发任务-->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="triggerFactoryBean"/>
+            </list>
+        </property>
+    </bean>
+</beans>

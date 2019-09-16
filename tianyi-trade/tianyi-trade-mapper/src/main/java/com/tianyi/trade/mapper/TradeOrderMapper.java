@@ -10,7 +10,7 @@ public interface TradeOrderMapper {
 
     int deleteByExample(TradeOrderExample example);
 
-    int deleteByPrimaryKey(Long orderId);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TradeOrder record);
 
@@ -18,7 +18,7 @@ public interface TradeOrderMapper {
 
     List<TradeOrder> selectByExample(TradeOrderExample example);
 
-    TradeOrder selectByPrimaryKey(Long orderId);
+    TradeOrder selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TradeOrder record, @Param("example") TradeOrderExample example);
 
