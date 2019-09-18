@@ -161,18 +161,19 @@ public class TradeOrderServiceImpl implements ITradeOrderService {
     @Override
     public List<OrderVO> excelOrderVO(List<Long> ids) {
         List<OrderVO> orderVOList = new ArrayList<>();
-        TradeExpressinfoExample tradeExpressinfoExample = new TradeExpressinfoExample();
-        OrderVO orderVO = new OrderVO();
         for (Long id : ids) {
+            OrderVO orderVO = new OrderVO();
+            TradeExpressinfoExample tradeExpressinfoExample = new TradeExpressinfoExample();
+            // 根据 自增id 查询订单信息
             TradeOrder tradeOrder = tradeOrderMapper.selectByPrimaryKey(id);
             Long orderId = tradeOrder.getOrderId();
-            BeanUtils.copyProperties(tradeOrder, orderVO);
-            // 将快递信息传递
-            tradeExpressinfoExample.clear();
+            // 查询该订单下的快递信息
             tradeExpressinfoExample.createCriteria().andOrderIdEqualTo(orderId);
             List<TradeExpressinfo> tradeExpressinfos = tradeExpressinfoMapper.selectByExample(tradeExpressinfoExample);
             TradeExpressinfo tradeExpressinfo = tradeExpressinfos.get(0);
+            // 将查询的订单信息和快递信息赋值
             BeanUtils.copyProperties(tradeExpressinfo, orderVO);
+            BeanUtils.copyProperties(tradeOrder, orderVO);
             orderVOList.add(orderVO);
         }
         return orderVOList;

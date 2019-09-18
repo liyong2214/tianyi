@@ -1,5 +1,7 @@
 package com.tianyi.trade.model.VO;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -47,6 +49,7 @@ public class GoodDeliverVO {
     /**
      * 入库时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createTime;
 
     public GoodDeliverVO() {

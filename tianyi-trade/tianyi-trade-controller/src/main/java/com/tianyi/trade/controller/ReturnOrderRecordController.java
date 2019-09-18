@@ -7,10 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,7 +42,7 @@ public class ReturnOrderRecordController {
      * @return
      */
     @GetMapping("/orders/{returnId}")
-    public ResponseEntity<TradeReturnOrderVO> getRecord(@Param("returnId") Long returnId){
+    public ResponseEntity<TradeReturnOrderVO> getRecord(@PathVariable Long returnId){
         TradeReturnOrderVO returnOrder = returnRecordService.getReturnOrder(returnId);
         return ResponseEntity.ok(returnOrder);
     }

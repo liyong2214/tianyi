@@ -1,5 +1,7 @@
 package com.tianyi.trade.model.VO;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.List;
 /**
  * 用于输出到页面的销售出库单
@@ -40,6 +42,7 @@ public class TradeDeliverOrderVO {
     /**
      * 处理时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private String updateTime;
 
     public TradeDeliverOrderVO() {

@@ -1,5 +1,7 @@
 package com.tianyi.trade.model.VO;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 /**
@@ -27,6 +29,7 @@ public class EMSReturnVO {
     /**
      * 申请时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date applyTime;
     /**
      * 传入的商品信息
@@ -55,6 +58,7 @@ public class EMSReturnVO {
     /**
      * 拒收时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date rejectTime;
 
     public EMSReturnVO() {

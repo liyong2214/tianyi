@@ -75,8 +75,7 @@ public class TradeReturnRecordServiceImpl implements ITradeReturnRecordService {
                 JedisUtil.hset(hkey,tradeReturnOrder.getReturnId().toString(),returnVO,600);
             }
             // 往 reids 存Zset
-            System.out.println("----------------");
-            JedisUtil.zadd(zkey,data);
+            JedisUtil.zadd(zkey,data,600);
             return tradeReturnVOS;
         }
 
@@ -101,6 +100,9 @@ public class TradeReturnRecordServiceImpl implements ITradeReturnRecordService {
     public TradeReturnOrderVO getReturnOrder(Long id) {
         TradeReturnOrderVO tradeReturnOrderVO = new TradeReturnOrderVO();
         TradeReturnOrder tradeReturnOrder = tradeReturnOrderMapper.selectByPrimaryKey(id);
+        if(tradeReturnOrder == null){
+            return null;
+        }
         Long orderId = tradeReturnOrder.getOrderId();
         OrderInfoVO orderInfoVO = new OrderInfoVO();
         // 根据orderId 查询order信息

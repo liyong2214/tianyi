@@ -370,10 +370,11 @@ public class JedisUtil {
      * @param key
      * @param scoreMembers
      */
-    public synchronized static void zadd(String key, Map<String, Double> scoreMembers){
+    public synchronized static void zadd(String key, Map<String, Double> scoreMembers, int seconds){
         try {
             Jedis jedis = JedisUtil.getJedis();
             jedis.zadd(key, scoreMembers);
+            jedis.expire(key, seconds);
             jedis.close();
         }catch (Exception e){
             LOGGER.error("zadd error:[{}]", e);

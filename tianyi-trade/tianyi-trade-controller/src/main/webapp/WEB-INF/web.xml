@@ -11,7 +11,18 @@
       <param-value>classpath:applicationContext-web.xml</param-value>
     </init-param>
   </servlet>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      classpath:applicationContext-service.xml,
+      classpath:applicationContext-dao.xml
+    </param-value>
+  </context-param>
 
+  <!--spring监听加载器-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
   <servlet-mapping>
     <servlet-name>Dispacher</servlet-name>
     <url-pattern>/</url-pattern>

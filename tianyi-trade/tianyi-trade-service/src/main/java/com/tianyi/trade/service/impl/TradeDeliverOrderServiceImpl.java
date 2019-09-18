@@ -35,7 +35,7 @@ public class TradeDeliverOrderServiceImpl implements ITradeDeliverOrderService {
     private final TradeExpressinfoMapper tradeExpressinfoMapper;
 
     @Autowired
-    public TradeDeliverOrderServiceImpl(TradeOrderMapper tradeOrderMapper, TradeDeliveryMapper tradeDeliveryMapper, ITradeOrderService iTradeOrderService, TradeExpressinfoMapper tradeExpressinfoMapper) {
+    public TradeDeliverOrderServiceImpl(TradeOrderMapper tradeOrderMapper, TradeDeliveryMapper tradeDeliveryMapper, TradeExpressinfoMapper tradeExpressinfoMapper) {
         this.tradeOrderMapper = tradeOrderMapper;
         this.tradeDeliveryMapper = tradeDeliveryMapper;
         this.tradeExpressinfoMapper = tradeExpressinfoMapper;

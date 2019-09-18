@@ -19,32 +19,40 @@
     <!--视图解析器  可配置 可以不配置 -->
 
     <!--定时任务-->
-    <bean id="deliveryOrderTask" class="com.tianyi.trade.quartz.DeliveryOrderTask"/>
-    <bean id="invokingJobDetailFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject">
-            <ref bean="deliveryOrderTask"/>
-        </property>
-        <property name="targetMethod">
-            <value>generateDeliveryOrder</value>
-        </property>
-    </bean>
+    <!--<bean id="deliveryOrderTask" class="com.tianyi.trade.quartz.DeliveryOrderTask"/>-->
+    <!--<bean id="invokingJobDetailFactoryBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+        <!--<property name="targetObject">-->
+            <!--<ref bean="deliveryOrderTask"/>-->
+        <!--</property>-->
+        <!--<property name="targetMethod">-->
+            <!--<value>generateDeliveryOrder</value>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="triggerFactoryBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="name" value="work_default_name"/>
-        <property name="group" value="work_default"/>
-        <property name="jobDetail">
-            <ref bean="invokingJobDetailFactoryBean"/>
-        </property>
-        <property name="cronExpression">
-            <value>* * 24 * * ? </value>
-        </property>
-    </bean>
-    <!--触发任务-->
-    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="triggers">
+    <!--<bean id="triggerFactoryBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+        <!--<property name="name" value="work_default_name"/>-->
+        <!--<property name="group" value="work_default"/>-->
+        <!--<property name="jobDetail">-->
+            <!--<ref bean="invokingJobDetailFactoryBean"/>-->
+        <!--</property>-->
+        <!--<property name="cronExpression">-->
+            <!--<value>* * 0 * * ? </value>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash;触发任务&ndash;&gt;-->
+    <!--<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
+        <!--<property name="triggers">-->
+            <!--<list>-->
+                <!--<ref bean="triggerFactoryBean"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
             <list>
-                <ref bean="triggerFactoryBean"/>
+                <bean class="com.tianyi.trade.utils.DateConverter"/>
             </list>
         </property>
     </bean>
+    <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
 </beans>

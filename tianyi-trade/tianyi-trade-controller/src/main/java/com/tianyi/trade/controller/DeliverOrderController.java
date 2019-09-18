@@ -21,19 +21,14 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 @RequestMapping(value = "/delivery")
 public class DeliverOrderController {
-
-    private final ITradeDeliverOrderService tradeDeliverOrderService;
     @Autowired
-    public DeliverOrderController(ITradeDeliverOrderService tradeDeliverOrderService) {
-        this.tradeDeliverOrderService = tradeDeliverOrderService;
-    }
-
+    private ITradeDeliverOrderService tradeDeliverOrderService;
     /**
      * 生成销售出库单 传入为空则打印当前到上一个时间段的订单，有指则生成指定订单
      * @return 返回生成数量
      */
     @PostMapping("orders")
-    public ResponseEntity<String> saveDeliverOrder(List<Long> orderIds){
+    public ResponseEntity<String> saveDeliverOrder(@RequestParam(value = "orderIds") List<Long> orderIds){
         Integer integer = tradeDeliverOrderService.saveTradeDeliverOrder(orderIds);
         int size = orderIds.size();
         if(integer != size){

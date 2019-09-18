@@ -34,7 +34,8 @@ public class TradeOrderController {
      * @return 返回状态
      */
     @PostMapping("orders")
-    public ResponseEntity<String> saveOrder(TradeOrderVO tradeOrderVO) throws OrderException {
+    public ResponseEntity<String> saveOrder(@RequestBody TradeOrderVO tradeOrderVO) throws OrderException {
+        System.out.println(tradeOrderVO);
         Integer integer = tradeOrderService.saveOrder(tradeOrderVO);
         // 获取购买商品种类数量
         int size = tradeOrderVO.getTradeOrderinfos().size();

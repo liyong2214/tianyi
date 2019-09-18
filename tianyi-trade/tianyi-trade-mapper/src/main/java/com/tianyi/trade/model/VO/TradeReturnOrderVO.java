@@ -1,6 +1,7 @@
 package com.tianyi.trade.model.VO;
 
 import com.tianyi.trade.model.TradeOrderinfo;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ public class TradeReturnOrderVO extends OrderInfoVO{
     /**
      * 拒收时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date rejectTime;
 
     public TradeReturnOrderVO() {

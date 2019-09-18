@@ -125,6 +125,9 @@ public class TradeReturnServiceImpl implements ITradeReturnService {
             TradeOrderinfoSeriesExample tradeOrderinfoSeriesExample = new TradeOrderinfoSeriesExample();
             tradeOrderinfoSeriesExample.createCriteria().andOrderinfoIdEqualTo(orderinfoId);
             List<TradeOrderinfoSeries> tradeOrderinfoSeries = tradeOrderinfoSeriesMapper.selectByExample(tradeOrderinfoSeriesExample);
+            if(tradeOrderinfoSeries.size() == 0){
+                return null;
+            }
             String goodsSeries = tradeOrderinfoSeries.get(0).getGoodsSeries();
             goodReturnVO.setGoodsSeries(goodsSeries);
             goodReturnVOS.add(goodReturnVO);

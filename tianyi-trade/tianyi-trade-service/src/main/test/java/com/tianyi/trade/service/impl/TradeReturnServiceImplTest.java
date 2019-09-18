@@ -1,6 +1,7 @@
 package com.tianyi.trade.service.impl;
 
 import com.tianyi.trade.model.VO.GoDownEntryVO;
+import com.tianyi.trade.model.VO.OrderInfoVO;
 import com.tianyi.trade.model.VO.OrderVO;
 import com.tianyi.trade.service.ITradeReturnService;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class TradeReturnServiceImplTest {
      */
     @Test
     public void getGoDownEntryVO() {
-        GoDownEntryVO goDownEntryVO = tradeReturnService.getGoDownEntryVO(1L);
-        System.out.println(goDownEntryVO);
+        OrderInfoVO returnOrderInfo = tradeReturnService.getReturnOrderInfo(  27L);
+        System.out.println(returnOrderInfo);
     }
 }

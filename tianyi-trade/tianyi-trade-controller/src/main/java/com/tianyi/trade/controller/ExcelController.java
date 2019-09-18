@@ -7,10 +7,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -37,8 +34,8 @@ public class ExcelController {
      * @param response 响应
      * @throws IOException IO流异常
      */
-    @PostMapping(value = "/excel")
-    public void exportExcel(List<Long> ids,HttpServletResponse response) throws IOException {
+    @PostMapping("excel")
+    public void exportExcel(@RequestParam(value = "ids") List<Long> ids, HttpServletResponse response) throws IOException {
         XSSFWorkbook sheets = new XSSFWorkbook();
         Sheet sheet = sheets.createSheet("销售订单");
         Row rowTitle = sheet.createRow(0);

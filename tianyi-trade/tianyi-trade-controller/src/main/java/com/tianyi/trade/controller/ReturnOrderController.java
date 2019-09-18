@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class ReturnOrderController {
      * @return goDownEntry 销售退货单
      */
     @GetMapping("/godown_entry/{id}")
-    public ResponseEntity<GoDownEntryVO> getSaleReturnOrder(@Param("id") Long id){
+    public ResponseEntity<GoDownEntryVO> getSaleReturnOrder(@PathVariable("id") Long id){
         GoDownEntryVO goDownEntryVO = tradeReturnService.getGoDownEntryVO(id);
         if(goDownEntryVO == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -59,8 +60,9 @@ public class ReturnOrderController {
      * @param id 退货单序号
      * @return 退货单详情
      */
-    @GetMapping("/orders/{id}")
-    public ResponseEntity<OrderInfoVO> getOrderVO(@Param("id") Long id){
+    @GetMapping("/order/{id}")
+    public ResponseEntity<OrderInfoVO> getOrderVO(@PathVariable Long id){
+        System.out.println(id);
         OrderInfoVO orderInfoVO = tradeReturnService.getReturnOrderInfo(id);
         return ResponseEntity.ok(orderInfoVO);
     }
