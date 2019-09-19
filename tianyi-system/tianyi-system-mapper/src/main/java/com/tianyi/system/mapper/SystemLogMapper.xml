@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyi.system.mapper.SystemLogMapper">
+  <resultMap id="BaseResultMap" type="com.tianyi.system.entity.SystemLog">
+    <id column="log_id" jdbcType="BIGINT" property="logId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="request_url" jdbcType="VARCHAR" property="requestUrl" />
+    <result column="create_account" jdbcType="VARCHAR" property="createAccount" />
+    <result column="request_ip" jdbcType="VARCHAR" property="requestIp" />
+    <result column="request_time" jdbcType="TIMESTAMP" property="requestTime" />
+    <result column="log_des" jdbcType="VARCHAR" property="logDes" />
+    <result column="log_method" jdbcType="VARCHAR" property="logMethod" />
+    <result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
+    <result column="exception_detail" jdbcType="VARCHAR" property="exceptionDetail" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    log_id, create_user, request_url, create_account, request_ip, request_time, log_des, 
+    log_method, exception_code, exception_detail, params
+  </sql>
+  <select id="selectByExample" parameterType="com.tianyi.system.entity.SystemLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_sys_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_log
+    where log_id = #{logId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_sys_log
+    where log_id = #{logId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tianyi.system.entity.SystemLogExample">
+    delete from t_sys_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.system.entity.SystemLog">
+    <selectKey keyProperty="logId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_log (create_user, request_url, create_account, 
+      request_ip, request_time, log_des, 
+      log_method, exception_code, exception_detail, 
+      params)
+    values (#{createUser,jdbcType=VARCHAR}, #{requestUrl,jdbcType=VARCHAR}, #{createAccount,jdbcType=VARCHAR}, 
+      #{requestIp,jdbcType=VARCHAR}, #{requestTime,jdbcType=TIMESTAMP}, #{logDes,jdbcType=VARCHAR}, 
+      #{logMethod,jdbcType=VARCHAR}, #{exceptionCode,jdbcType=VARCHAR}, #{exceptionDetail,jdbcType=VARCHAR}, 
+      #{params,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.system.entity.SystemLog">
+    <selectKey keyProperty="logId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="requestUrl != null">
+        request_url,
+      </if>
+      <if test="createAccount != null">
+        create_account,
+      </if>
+      <if test="requestIp != null">
+        request_ip,
+      </if>
+      <if test="requestTime != null">
+        request_time,
+      </if>
+      <if test="logDes != null">
+        log_des,
+      </if>
+      <if test="logMethod != null">
+        log_method,
+      </if>
+      <if test="exceptionCode != null">
+        exception_code,
+      </if>
+      <if test="exceptionDetail != null">
+        exception_detail,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null">
+        #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createAccount != null">
+        #{createAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="requestIp != null">
+        #{requestIp,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logDes != null">
+        #{logDes,jdbcType=VARCHAR},
+      </if>
+      <if test="logMethod != null">
+        #{logMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionCode != null">
+        #{exceptionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionDetail != null">
+        #{exceptionDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tianyi.system.entity.SystemLogExample" resultType="java.lang.Long">
+    select count(*) from t_sys_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_sys_log
+    <set>
+      <if test="record.logId != null">
+        log_id = #{record.logId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestUrl != null">
+        request_url = #{record.requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createAccount != null">
+        create_account = #{record.createAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestIp != null">
+        request_ip = #{record.requestIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestTime != null">
+        request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logDes != null">
+        log_des = #{record.logDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logMethod != null">
+        log_method = #{record.logMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exceptionCode != null">
+        exception_code = #{record.exceptionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exceptionDetail != null">
+        exception_detail = #{record.exceptionDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_sys_log
+    set log_id = #{record.logId,jdbcType=BIGINT},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      request_url = #{record.requestUrl,jdbcType=VARCHAR},
+      create_account = #{record.createAccount,jdbcType=VARCHAR},
+      request_ip = #{record.requestIp,jdbcType=VARCHAR},
+      request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      log_des = #{record.logDes,jdbcType=VARCHAR},
+      log_method = #{record.logMethod,jdbcType=VARCHAR},
+      exception_code = #{record.exceptionCode,jdbcType=VARCHAR},
+      exception_detail = #{record.exceptionDetail,jdbcType=VARCHAR},
+      params = #{record.params,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.system.entity.SystemLog">
+    update t_sys_log
+    <set>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null">
+        request_url = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createAccount != null">
+        create_account = #{createAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="requestIp != null">
+        request_ip = #{requestIp,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        request_time = #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logDes != null">
+        log_des = #{logDes,jdbcType=VARCHAR},
+      </if>
+      <if test="logMethod != null">
+        log_method = #{logMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionCode != null">
+        exception_code = #{exceptionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionDetail != null">
+        exception_detail = #{exceptionDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.system.entity.SystemLog">
+    update t_sys_log
+    set create_user = #{createUser,jdbcType=VARCHAR},
+      request_url = #{requestUrl,jdbcType=VARCHAR},
+      create_account = #{createAccount,jdbcType=VARCHAR},
+      request_ip = #{requestIp,jdbcType=VARCHAR},
+      request_time = #{requestTime,jdbcType=TIMESTAMP},
+      log_des = #{logDes,jdbcType=VARCHAR},
+      log_method = #{logMethod,jdbcType=VARCHAR},
+      exception_code = #{exceptionCode,jdbcType=VARCHAR},
+      exception_detail = #{exceptionDetail,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR}
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+</mapper>

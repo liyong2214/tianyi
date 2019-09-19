@@ -11,6 +11,7 @@
     <modules>
         <module>tianyi-trade</module>
         <module>tianyi-common</module>
+        <module>tianyi-system</module>
     </modules>
 
     <properties>

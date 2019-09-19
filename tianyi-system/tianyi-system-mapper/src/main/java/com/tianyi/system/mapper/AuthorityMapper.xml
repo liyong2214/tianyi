@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyi.system.mapper.AuthorityMapper">
+  <resultMap id="BaseResultMap" type="com.tianyi.system.entity.Authority">
+    <id column="authority_id" jdbcType="INTEGER" property="authorityId" />
+    <result column="authority_name" jdbcType="VARCHAR" property="authorityName" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tianyi.system.entity.Authority">
+    <result column="authority_des" jdbcType="LONGVARCHAR" property="authorityDes" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    authority_id, authority_name
+  </sql>
+  <sql id="Blob_Column_List">
+    authority_des
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tianyi.system.entity.AuthorityExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_sys_authority
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.tianyi.system.entity.AuthorityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_sys_authority
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_sys_authority
+    where authority_id = #{authorityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_sys_authority
+    where authority_id = #{authorityId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tianyi.system.entity.AuthorityExample">
+    delete from t_sys_authority
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.system.entity.Authority">
+    <selectKey keyProperty="authorityId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_authority (authority_name, authority_des)
+    values (#{authorityName,jdbcType=VARCHAR}, #{authorityDes,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.system.entity.Authority">
+    <selectKey keyProperty="authorityId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_sys_authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authorityName != null">
+        authority_name,
+      </if>
+      <if test="authorityDes != null">
+        authority_des,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authorityName != null">
+        #{authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityDes != null">
+        #{authorityDes,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tianyi.system.entity.AuthorityExample" resultType="java.lang.Long">
+    select count(*) from t_sys_authority
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_sys_authority
+    <set>
+      <if test="record.authorityId != null">
+        authority_id = #{record.authorityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.authorityName != null">
+        authority_name = #{record.authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorityDes != null">
+        authority_des = #{record.authorityDes,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_sys_authority
+    set authority_id = #{record.authorityId,jdbcType=INTEGER},
+      authority_name = #{record.authorityName,jdbcType=VARCHAR},
+      authority_des = #{record.authorityDes,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_sys_authority
+    set authority_id = #{record.authorityId,jdbcType=INTEGER},
+      authority_name = #{record.authorityName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.system.entity.Authority">
+    update t_sys_authority
+    <set>
+      <if test="authorityName != null">
+        authority_name = #{authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityDes != null">
+        authority_des = #{authorityDes,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where authority_id = #{authorityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tianyi.system.entity.Authority">
+    update t_sys_authority
+    set authority_name = #{authorityName,jdbcType=VARCHAR},
+      authority_des = #{authorityDes,jdbcType=LONGVARCHAR}
+    where authority_id = #{authorityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.system.entity.Authority">
+    update t_sys_authority
+    set authority_name = #{authorityName,jdbcType=VARCHAR}
+    where authority_id = #{authorityId,jdbcType=INTEGER}
+  </update>
+</mapper>
