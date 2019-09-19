@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyi.goods.mapper.CommodityPromotionProposeMapper">
+  <resultMap id="BaseResultMap" type="com.tianyi.goods.entity.CommodityPromotionPropose">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="proposer_id" jdbcType="BIGINT" property="proposerId" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+    <result column="goods_purchase_price" jdbcType="DECIMAL" property="goodsPurchasePrice" />
+    <result column="goods_warehouse_distribute" jdbcType="VARCHAR" property="goodsWarehouseDistribute" />
+    <result column="rush_shopping_start_time" jdbcType="TIMESTAMP" property="rushShoppingStartTime" />
+    <result column="rush_shopping_end_time" jdbcType="TIMESTAMP" property="rushShoppingEndTime" />
+    <result column="price_modification_absolute" jdbcType="DECIMAL" property="priceModificationAbsolute" />
+    <result column="price_modification_relative" jdbcType="REAL" property="priceModificationRelative" />
+    <result column="target_adjust_price" jdbcType="INTEGER" property="targetAdjustPrice" />
+    <result column="approve_stage" jdbcType="INTEGER" property="approveStage" />
+    <result column="approve_result" jdbcType="BIT" property="approveResult" />
+    <result column="propose_time" jdbcType="TIMESTAMP" property="proposeTime" />
+    <result column="propose_type" jdbcType="INTEGER" property="proposeType" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tianyi.goods.entity.CommodityPromotionPropose">
+    <result column="adjust_reason" jdbcType="LONGVARCHAR" property="adjustReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, proposer_id, commodity_id, goods_purchase_price, goods_warehouse_distribute, 
+    rush_shopping_start_time, rush_shopping_end_time, price_modification_absolute, price_modification_relative, 
+    target_adjust_price, approve_stage, approve_result, propose_time, propose_type
+  </sql>
+  <sql id="Blob_Column_List">
+    adjust_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tianyi.goods.entity.CommodityPromotionProposeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_commodity_promotion_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.tianyi.goods.entity.CommodityPromotionProposeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_commodity_promotion_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_commodity_promotion_propose
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_commodity_promotion_propose
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tianyi.goods.entity.CommodityPromotionProposeExample">
+    delete from t_commodity_promotion_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.goods.entity.CommodityPromotionPropose">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_commodity_promotion_propose (proposer_id, commodity_id, goods_purchase_price, 
+      goods_warehouse_distribute, rush_shopping_start_time, 
+      rush_shopping_end_time, price_modification_absolute, 
+      price_modification_relative, target_adjust_price, 
+      approve_stage, approve_result, propose_time, 
+      propose_type, adjust_reason)
+    values (#{proposerId,jdbcType=BIGINT}, #{commodityId,jdbcType=BIGINT}, #{goodsPurchasePrice,jdbcType=DECIMAL}, 
+      #{goodsWarehouseDistribute,jdbcType=VARCHAR}, #{rushShoppingStartTime,jdbcType=TIMESTAMP}, 
+      #{rushShoppingEndTime,jdbcType=TIMESTAMP}, #{priceModificationAbsolute,jdbcType=DECIMAL}, 
+      #{priceModificationRelative,jdbcType=REAL}, #{targetAdjustPrice,jdbcType=INTEGER}, 
+      #{approveStage,jdbcType=INTEGER}, #{approveResult,jdbcType=BIT}, #{proposeTime,jdbcType=TIMESTAMP}, 
+      #{proposeType,jdbcType=INTEGER}, #{adjustReason,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.goods.entity.CommodityPromotionPropose">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_commodity_promotion_propose
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="proposerId != null">
+        proposer_id,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="goodsPurchasePrice != null">
+        goods_purchase_price,
+      </if>
+      <if test="goodsWarehouseDistribute != null">
+        goods_warehouse_distribute,
+      </if>
+      <if test="rushShoppingStartTime != null">
+        rush_shopping_start_time,
+      </if>
+      <if test="rushShoppingEndTime != null">
+        rush_shopping_end_time,
+      </if>
+      <if test="priceModificationAbsolute != null">
+        price_modification_absolute,
+      </if>
+      <if test="priceModificationRelative != null">
+        price_modification_relative,
+      </if>
+      <if test="targetAdjustPrice != null">
+        target_adjust_price,
+      </if>
+      <if test="approveStage != null">
+        approve_stage,
+      </if>
+      <if test="approveResult != null">
+        approve_result,
+      </if>
+      <if test="proposeTime != null">
+        propose_time,
+      </if>
+      <if test="proposeType != null">
+        propose_type,
+      </if>
+      <if test="adjustReason != null">
+        adjust_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="proposerId != null">
+        #{proposerId,jdbcType=BIGINT},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPurchasePrice != null">
+        #{goodsPurchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsWarehouseDistribute != null">
+        #{goodsWarehouseDistribute,jdbcType=VARCHAR},
+      </if>
+      <if test="rushShoppingStartTime != null">
+        #{rushShoppingStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rushShoppingEndTime != null">
+        #{rushShoppingEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priceModificationAbsolute != null">
+        #{priceModificationAbsolute,jdbcType=DECIMAL},
+      </if>
+      <if test="priceModificationRelative != null">
+        #{priceModificationRelative,jdbcType=REAL},
+      </if>
+      <if test="targetAdjustPrice != null">
+        #{targetAdjustPrice,jdbcType=INTEGER},
+      </if>
+      <if test="approveStage != null">
+        #{approveStage,jdbcType=INTEGER},
+      </if>
+      <if test="approveResult != null">
+        #{approveResult,jdbcType=BIT},
+      </if>
+      <if test="proposeTime != null">
+        #{proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposeType != null">
+        #{proposeType,jdbcType=INTEGER},
+      </if>
+      <if test="adjustReason != null">
+        #{adjustReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tianyi.goods.entity.CommodityPromotionProposeExample" resultType="java.lang.Long">
+    select count(*) from t_commodity_promotion_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_commodity_promotion_propose
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.proposerId != null">
+        proposer_id = #{record.proposerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.commodityId != null">
+        commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsPurchasePrice != null">
+        goods_purchase_price = #{record.goodsPurchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodsWarehouseDistribute != null">
+        goods_warehouse_distribute = #{record.goodsWarehouseDistribute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rushShoppingStartTime != null">
+        rush_shopping_start_time = #{record.rushShoppingStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rushShoppingEndTime != null">
+        rush_shopping_end_time = #{record.rushShoppingEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.priceModificationAbsolute != null">
+        price_modification_absolute = #{record.priceModificationAbsolute,jdbcType=DECIMAL},
+      </if>
+      <if test="record.priceModificationRelative != null">
+        price_modification_relative = #{record.priceModificationRelative,jdbcType=REAL},
+      </if>
+      <if test="record.targetAdjustPrice != null">
+        target_adjust_price = #{record.targetAdjustPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.approveStage != null">
+        approve_stage = #{record.approveStage,jdbcType=INTEGER},
+      </if>
+      <if test="record.approveResult != null">
+        approve_result = #{record.approveResult,jdbcType=BIT},
+      </if>
+      <if test="record.proposeTime != null">
+        propose_time = #{record.proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.proposeType != null">
+        propose_type = #{record.proposeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.adjustReason != null">
+        adjust_reason = #{record.adjustReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_commodity_promotion_propose
+    set id = #{record.id,jdbcType=INTEGER},
+      proposer_id = #{record.proposerId,jdbcType=BIGINT},
+      commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      goods_purchase_price = #{record.goodsPurchasePrice,jdbcType=DECIMAL},
+      goods_warehouse_distribute = #{record.goodsWarehouseDistribute,jdbcType=VARCHAR},
+      rush_shopping_start_time = #{record.rushShoppingStartTime,jdbcType=TIMESTAMP},
+      rush_shopping_end_time = #{record.rushShoppingEndTime,jdbcType=TIMESTAMP},
+      price_modification_absolute = #{record.priceModificationAbsolute,jdbcType=DECIMAL},
+      price_modification_relative = #{record.priceModificationRelative,jdbcType=REAL},
+      target_adjust_price = #{record.targetAdjustPrice,jdbcType=INTEGER},
+      approve_stage = #{record.approveStage,jdbcType=INTEGER},
+      approve_result = #{record.approveResult,jdbcType=BIT},
+      propose_time = #{record.proposeTime,jdbcType=TIMESTAMP},
+      propose_type = #{record.proposeType,jdbcType=INTEGER},
+      adjust_reason = #{record.adjustReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_commodity_promotion_propose
+    set id = #{record.id,jdbcType=INTEGER},
+      proposer_id = #{record.proposerId,jdbcType=BIGINT},
+      commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      goods_purchase_price = #{record.goodsPurchasePrice,jdbcType=DECIMAL},
+      goods_warehouse_distribute = #{record.goodsWarehouseDistribute,jdbcType=VARCHAR},
+      rush_shopping_start_time = #{record.rushShoppingStartTime,jdbcType=TIMESTAMP},
+      rush_shopping_end_time = #{record.rushShoppingEndTime,jdbcType=TIMESTAMP},
+      price_modification_absolute = #{record.priceModificationAbsolute,jdbcType=DECIMAL},
+      price_modification_relative = #{record.priceModificationRelative,jdbcType=REAL},
+      target_adjust_price = #{record.targetAdjustPrice,jdbcType=INTEGER},
+      approve_stage = #{record.approveStage,jdbcType=INTEGER},
+      approve_result = #{record.approveResult,jdbcType=BIT},
+      propose_time = #{record.proposeTime,jdbcType=TIMESTAMP},
+      propose_type = #{record.proposeType,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.goods.entity.CommodityPromotionPropose">
+    update t_commodity_promotion_propose
+    <set>
+      <if test="proposerId != null">
+        proposer_id = #{proposerId,jdbcType=BIGINT},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsPurchasePrice != null">
+        goods_purchase_price = #{goodsPurchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsWarehouseDistribute != null">
+        goods_warehouse_distribute = #{goodsWarehouseDistribute,jdbcType=VARCHAR},
+      </if>
+      <if test="rushShoppingStartTime != null">
+        rush_shopping_start_time = #{rushShoppingStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rushShoppingEndTime != null">
+        rush_shopping_end_time = #{rushShoppingEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priceModificationAbsolute != null">
+        price_modification_absolute = #{priceModificationAbsolute,jdbcType=DECIMAL},
+      </if>
+      <if test="priceModificationRelative != null">
+        price_modification_relative = #{priceModificationRelative,jdbcType=REAL},
+      </if>
+      <if test="targetAdjustPrice != null">
+        target_adjust_price = #{targetAdjustPrice,jdbcType=INTEGER},
+      </if>
+      <if test="approveStage != null">
+        approve_stage = #{approveStage,jdbcType=INTEGER},
+      </if>
+      <if test="approveResult != null">
+        approve_result = #{approveResult,jdbcType=BIT},
+      </if>
+      <if test="proposeTime != null">
+        propose_time = #{proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposeType != null">
+        propose_type = #{proposeType,jdbcType=INTEGER},
+      </if>
+      <if test="adjustReason != null">
+        adjust_reason = #{adjustReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tianyi.goods.entity.CommodityPromotionPropose">
+    update t_commodity_promotion_propose
+    set proposer_id = #{proposerId,jdbcType=BIGINT},
+      commodity_id = #{commodityId,jdbcType=BIGINT},
+      goods_purchase_price = #{goodsPurchasePrice,jdbcType=DECIMAL},
+      goods_warehouse_distribute = #{goodsWarehouseDistribute,jdbcType=VARCHAR},
+      rush_shopping_start_time = #{rushShoppingStartTime,jdbcType=TIMESTAMP},
+      rush_shopping_end_time = #{rushShoppingEndTime,jdbcType=TIMESTAMP},
+      price_modification_absolute = #{priceModificationAbsolute,jdbcType=DECIMAL},
+      price_modification_relative = #{priceModificationRelative,jdbcType=REAL},
+      target_adjust_price = #{targetAdjustPrice,jdbcType=INTEGER},
+      approve_stage = #{approveStage,jdbcType=INTEGER},
+      approve_result = #{approveResult,jdbcType=BIT},
+      propose_time = #{proposeTime,jdbcType=TIMESTAMP},
+      propose_type = #{proposeType,jdbcType=INTEGER},
+      adjust_reason = #{adjustReason,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.goods.entity.CommodityPromotionPropose">
+    update t_commodity_promotion_propose
+    set proposer_id = #{proposerId,jdbcType=BIGINT},
+      commodity_id = #{commodityId,jdbcType=BIGINT},
+      goods_purchase_price = #{goodsPurchasePrice,jdbcType=DECIMAL},
+      goods_warehouse_distribute = #{goodsWarehouseDistribute,jdbcType=VARCHAR},
+      rush_shopping_start_time = #{rushShoppingStartTime,jdbcType=TIMESTAMP},
+      rush_shopping_end_time = #{rushShoppingEndTime,jdbcType=TIMESTAMP},
+      price_modification_absolute = #{priceModificationAbsolute,jdbcType=DECIMAL},
+      price_modification_relative = #{priceModificationRelative,jdbcType=REAL},
+      target_adjust_price = #{targetAdjustPrice,jdbcType=INTEGER},
+      approve_stage = #{approveStage,jdbcType=INTEGER},
+      approve_result = #{approveResult,jdbcType=BIT},
+      propose_time = #{proposeTime,jdbcType=TIMESTAMP},
+      propose_type = #{proposeType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

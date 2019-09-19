@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyi.goods.mapper.ApproveMapper">
+  <resultMap id="BaseResultMap" type="com.tianyi.goods.entity.Approve">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="approve_grade" jdbcType="INTEGER" property="approveGrade" />
+    <result column="approver_id" jdbcType="BIGINT" property="approverId" />
+    <result column="approve_result" jdbcType="INTEGER" property="approveResult" />
+    <result column="propose_type" jdbcType="INTEGER" property="proposeType" />
+    <result column="propose_id" jdbcType="INTEGER" property="proposeId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tianyi.goods.entity.Approve">
+    <result column="opinion" jdbcType="LONGVARCHAR" property="opinion" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, approve_grade, approver_id, approve_result, propose_type, propose_id
+  </sql>
+  <sql id="Blob_Column_List">
+    opinion
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tianyi.goods.entity.ApproveExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_approve
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.tianyi.goods.entity.ApproveExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_approve
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_approve
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_approve
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tianyi.goods.entity.ApproveExample">
+    delete from t_approve
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.goods.entity.Approve">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_approve (approve_grade, approver_id, approve_result, 
+      propose_type, propose_id, opinion
+      )
+    values (#{approveGrade,jdbcType=INTEGER}, #{approverId,jdbcType=BIGINT}, #{approveResult,jdbcType=INTEGER}, 
+      #{proposeType,jdbcType=INTEGER}, #{proposeId,jdbcType=INTEGER}, #{opinion,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.goods.entity.Approve">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_approve
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="approveGrade != null">
+        approve_grade,
+      </if>
+      <if test="approverId != null">
+        approver_id,
+      </if>
+      <if test="approveResult != null">
+        approve_result,
+      </if>
+      <if test="proposeType != null">
+        propose_type,
+      </if>
+      <if test="proposeId != null">
+        propose_id,
+      </if>
+      <if test="opinion != null">
+        opinion,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="approveGrade != null">
+        #{approveGrade,jdbcType=INTEGER},
+      </if>
+      <if test="approverId != null">
+        #{approverId,jdbcType=BIGINT},
+      </if>
+      <if test="approveResult != null">
+        #{approveResult,jdbcType=INTEGER},
+      </if>
+      <if test="proposeType != null">
+        #{proposeType,jdbcType=INTEGER},
+      </if>
+      <if test="proposeId != null">
+        #{proposeId,jdbcType=INTEGER},
+      </if>
+      <if test="opinion != null">
+        #{opinion,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tianyi.goods.entity.ApproveExample" resultType="java.lang.Long">
+    select count(*) from t_approve
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_approve
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.approveGrade != null">
+        approve_grade = #{record.approveGrade,jdbcType=INTEGER},
+      </if>
+      <if test="record.approverId != null">
+        approver_id = #{record.approverId,jdbcType=BIGINT},
+      </if>
+      <if test="record.approveResult != null">
+        approve_result = #{record.approveResult,jdbcType=INTEGER},
+      </if>
+      <if test="record.proposeType != null">
+        propose_type = #{record.proposeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.proposeId != null">
+        propose_id = #{record.proposeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.opinion != null">
+        opinion = #{record.opinion,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_approve
+    set id = #{record.id,jdbcType=BIGINT},
+      approve_grade = #{record.approveGrade,jdbcType=INTEGER},
+      approver_id = #{record.approverId,jdbcType=BIGINT},
+      approve_result = #{record.approveResult,jdbcType=INTEGER},
+      propose_type = #{record.proposeType,jdbcType=INTEGER},
+      propose_id = #{record.proposeId,jdbcType=INTEGER},
+      opinion = #{record.opinion,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_approve
+    set id = #{record.id,jdbcType=BIGINT},
+      approve_grade = #{record.approveGrade,jdbcType=INTEGER},
+      approver_id = #{record.approverId,jdbcType=BIGINT},
+      approve_result = #{record.approveResult,jdbcType=INTEGER},
+      propose_type = #{record.proposeType,jdbcType=INTEGER},
+      propose_id = #{record.proposeId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.goods.entity.Approve">
+    update t_approve
+    <set>
+      <if test="approveGrade != null">
+        approve_grade = #{approveGrade,jdbcType=INTEGER},
+      </if>
+      <if test="approverId != null">
+        approver_id = #{approverId,jdbcType=BIGINT},
+      </if>
+      <if test="approveResult != null">
+        approve_result = #{approveResult,jdbcType=INTEGER},
+      </if>
+      <if test="proposeType != null">
+        propose_type = #{proposeType,jdbcType=INTEGER},
+      </if>
+      <if test="proposeId != null">
+        propose_id = #{proposeId,jdbcType=INTEGER},
+      </if>
+      <if test="opinion != null">
+        opinion = #{opinion,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tianyi.goods.entity.Approve">
+    update t_approve
+    set approve_grade = #{approveGrade,jdbcType=INTEGER},
+      approver_id = #{approverId,jdbcType=BIGINT},
+      approve_result = #{approveResult,jdbcType=INTEGER},
+      propose_type = #{proposeType,jdbcType=INTEGER},
+      propose_id = #{proposeId,jdbcType=INTEGER},
+      opinion = #{opinion,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.goods.entity.Approve">
+    update t_approve
+    set approve_grade = #{approveGrade,jdbcType=INTEGER},
+      approver_id = #{approverId,jdbcType=BIGINT},
+      approve_result = #{approveResult,jdbcType=INTEGER},
+      propose_type = #{proposeType,jdbcType=INTEGER},
+      propose_id = #{proposeId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

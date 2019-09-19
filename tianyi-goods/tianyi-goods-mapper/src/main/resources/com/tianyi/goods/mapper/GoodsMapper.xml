@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyi.goods.mapper.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.tianyi.goods.entity.Goods">
+    <id column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="kind_id" jdbcType="BIGINT" property="kindId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="brand_id" jdbcType="BIGINT" property="brandId" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="product_model" jdbcType="VARCHAR" property="productModel" />
+    <result column="purchaser_id" jdbcType="BIGINT" property="purchaserId" />
+    <result column="purchase_department_id" jdbcType="BIGINT" property="purchaseDepartmentId" />
+    <result column="purchase_time" jdbcType="TIMESTAMP" property="purchaseTime" />
+    <result column="purchase_num" jdbcType="BIGINT" property="purchaseNum" />
+    <result column="purchase_price" jdbcType="DECIMAL" property="purchasePrice" />
+    <result column="minimum_stock_num" jdbcType="BIGINT" property="minimumStockNum" />
+    <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId" />
+    <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="business_mode" jdbcType="INTEGER" property="businessMode" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+    <result column="stock_num" jdbcType="BIGINT" property="stockNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    goods_id, kind_id, goods_name, brand_id, barcode, product_model, purchaser_id, purchase_department_id, 
+    purchase_time, purchase_num, purchase_price, minimum_stock_num, warehouse_id, supplier_id, 
+    business_mode, color, stock_num
+  </sql>
+  <select id="selectByExample" parameterType="com.tianyi.goods.entity.GoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_goods
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tianyi.goods.entity.GoodsExample">
+    delete from t_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.goods.entity.Goods">
+    <selectKey keyProperty="goodsId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_goods (kind_id, goods_name, brand_id, 
+      barcode, product_model, purchaser_id, 
+      purchase_department_id, purchase_time, purchase_num, 
+      purchase_price, minimum_stock_num, warehouse_id, 
+      supplier_id, business_mode, color, 
+      stock_num)
+    values (#{kindId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{brandId,jdbcType=BIGINT}, 
+      #{barcode,jdbcType=VARCHAR}, #{productModel,jdbcType=VARCHAR}, #{purchaserId,jdbcType=BIGINT}, 
+      #{purchaseDepartmentId,jdbcType=BIGINT}, #{purchaseTime,jdbcType=TIMESTAMP}, #{purchaseNum,jdbcType=BIGINT}, 
+      #{purchasePrice,jdbcType=DECIMAL}, #{minimumStockNum,jdbcType=BIGINT}, #{warehouseId,jdbcType=INTEGER}, 
+      #{supplierId,jdbcType=INTEGER}, #{businessMode,jdbcType=INTEGER}, #{color,jdbcType=VARCHAR}, 
+      #{stockNum,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.goods.entity.Goods">
+    <selectKey keyProperty="goodsId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="kindId != null">
+        kind_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="productModel != null">
+        product_model,
+      </if>
+      <if test="purchaserId != null">
+        purchaser_id,
+      </if>
+      <if test="purchaseDepartmentId != null">
+        purchase_department_id,
+      </if>
+      <if test="purchaseTime != null">
+        purchase_time,
+      </if>
+      <if test="purchaseNum != null">
+        purchase_num,
+      </if>
+      <if test="purchasePrice != null">
+        purchase_price,
+      </if>
+      <if test="minimumStockNum != null">
+        minimum_stock_num,
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="businessMode != null">
+        business_mode,
+      </if>
+      <if test="color != null">
+        color,
+      </if>
+      <if test="stockNum != null">
+        stock_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="kindId != null">
+        #{kindId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productModel != null">
+        #{productModel,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserId != null">
+        #{purchaserId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseDepartmentId != null">
+        #{purchaseDepartmentId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseTime != null">
+        #{purchaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseNum != null">
+        #{purchaseNum,jdbcType=BIGINT},
+      </if>
+      <if test="purchasePrice != null">
+        #{purchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumStockNum != null">
+        #{minimumStockNum,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="businessMode != null">
+        #{businessMode,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNum != null">
+        #{stockNum,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tianyi.goods.entity.GoodsExample" resultType="java.lang.Long">
+    select count(*) from t_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_goods
+    <set>
+      <if test="record.goodsId != null">
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="record.kindId != null">
+        kind_id = #{record.kindId,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsName != null">
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandId != null">
+        brand_id = #{record.brandId,jdbcType=BIGINT},
+      </if>
+      <if test="record.barcode != null">
+        barcode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productModel != null">
+        product_model = #{record.productModel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaserId != null">
+        purchaser_id = #{record.purchaserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.purchaseDepartmentId != null">
+        purchase_department_id = #{record.purchaseDepartmentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.purchaseTime != null">
+        purchase_time = #{record.purchaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.purchaseNum != null">
+        purchase_num = #{record.purchaseNum,jdbcType=BIGINT},
+      </if>
+      <if test="record.purchasePrice != null">
+        purchase_price = #{record.purchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minimumStockNum != null">
+        minimum_stock_num = #{record.minimumStockNum,jdbcType=BIGINT},
+      </if>
+      <if test="record.warehouseId != null">
+        warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierId != null">
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessMode != null">
+        business_mode = #{record.businessMode,jdbcType=INTEGER},
+      </if>
+      <if test="record.color != null">
+        color = #{record.color,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockNum != null">
+        stock_num = #{record.stockNum,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_goods
+    set goods_id = #{record.goodsId,jdbcType=BIGINT},
+      kind_id = #{record.kindId,jdbcType=BIGINT},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      brand_id = #{record.brandId,jdbcType=BIGINT},
+      barcode = #{record.barcode,jdbcType=VARCHAR},
+      product_model = #{record.productModel,jdbcType=VARCHAR},
+      purchaser_id = #{record.purchaserId,jdbcType=BIGINT},
+      purchase_department_id = #{record.purchaseDepartmentId,jdbcType=BIGINT},
+      purchase_time = #{record.purchaseTime,jdbcType=TIMESTAMP},
+      purchase_num = #{record.purchaseNum,jdbcType=BIGINT},
+      purchase_price = #{record.purchasePrice,jdbcType=DECIMAL},
+      minimum_stock_num = #{record.minimumStockNum,jdbcType=BIGINT},
+      warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      business_mode = #{record.businessMode,jdbcType=INTEGER},
+      color = #{record.color,jdbcType=VARCHAR},
+      stock_num = #{record.stockNum,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.goods.entity.Goods">
+    update t_goods
+    <set>
+      <if test="kindId != null">
+        kind_id = #{kindId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="productModel != null">
+        product_model = #{productModel,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserId != null">
+        purchaser_id = #{purchaserId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseDepartmentId != null">
+        purchase_department_id = #{purchaseDepartmentId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseTime != null">
+        purchase_time = #{purchaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseNum != null">
+        purchase_num = #{purchaseNum,jdbcType=BIGINT},
+      </if>
+      <if test="purchasePrice != null">
+        purchase_price = #{purchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumStockNum != null">
+        minimum_stock_num = #{minimumStockNum,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="businessMode != null">
+        business_mode = #{businessMode,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNum != null">
+        stock_num = #{stockNum,jdbcType=BIGINT},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.goods.entity.Goods">
+    update t_goods
+    set kind_id = #{kindId,jdbcType=BIGINT},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=BIGINT},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      product_model = #{productModel,jdbcType=VARCHAR},
+      purchaser_id = #{purchaserId,jdbcType=BIGINT},
+      purchase_department_id = #{purchaseDepartmentId,jdbcType=BIGINT},
+      purchase_time = #{purchaseTime,jdbcType=TIMESTAMP},
+      purchase_num = #{purchaseNum,jdbcType=BIGINT},
+      purchase_price = #{purchasePrice,jdbcType=DECIMAL},
+      minimum_stock_num = #{minimumStockNum,jdbcType=BIGINT},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      supplier_id = #{supplierId,jdbcType=INTEGER},
+      business_mode = #{businessMode,jdbcType=INTEGER},
+      color = #{color,jdbcType=VARCHAR},
+      stock_num = #{stockNum,jdbcType=BIGINT}
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyi.goods.mapper.GoodsPriceProposeMapper">
+  <resultMap id="BaseResultMap" type="com.tianyi.goods.entity.GoodsPricePropose">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="proposer_id" jdbcType="BIGINT" property="proposerId" />
+    <result column="commodity_id" jdbcType="BIGINT" property="commodityId" />
+    <result column="target_adjust_price" jdbcType="INTEGER" property="targetAdjustPrice" />
+    <result column="price_modification" jdbcType="REAL" property="priceModification" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="approve_stage" jdbcType="INTEGER" property="approveStage" />
+    <result column="approve_result" jdbcType="BIT" property="approveResult" />
+    <result column="propose_time" jdbcType="TIMESTAMP" property="proposeTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tianyi.goods.entity.GoodsPricePropose">
+    <result column="adjust_reason" jdbcType="LONGVARCHAR" property="adjustReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, proposer_id, commodity_id, target_adjust_price, price_modification, start_time, 
+    end_time, approve_stage, approve_result, propose_time
+  </sql>
+  <sql id="Blob_Column_List">
+    adjust_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tianyi.goods.entity.GoodsPriceProposeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods_price_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.tianyi.goods.entity.GoodsPriceProposeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_goods_price_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods_price_propose
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goods_price_propose
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tianyi.goods.entity.GoodsPriceProposeExample">
+    delete from t_goods_price_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.goods.entity.GoodsPricePropose">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_goods_price_propose (proposer_id, commodity_id, target_adjust_price, 
+      price_modification, start_time, end_time, 
+      approve_stage, approve_result, propose_time, 
+      adjust_reason)
+    values (#{proposerId,jdbcType=BIGINT}, #{commodityId,jdbcType=BIGINT}, #{targetAdjustPrice,jdbcType=INTEGER}, 
+      #{priceModification,jdbcType=REAL}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{approveStage,jdbcType=INTEGER}, #{approveResult,jdbcType=BIT}, #{proposeTime,jdbcType=TIMESTAMP}, 
+      #{adjustReason,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.goods.entity.GoodsPricePropose">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_goods_price_propose
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="proposerId != null">
+        proposer_id,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="targetAdjustPrice != null">
+        target_adjust_price,
+      </if>
+      <if test="priceModification != null">
+        price_modification,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="approveStage != null">
+        approve_stage,
+      </if>
+      <if test="approveResult != null">
+        approve_result,
+      </if>
+      <if test="proposeTime != null">
+        propose_time,
+      </if>
+      <if test="adjustReason != null">
+        adjust_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="proposerId != null">
+        #{proposerId,jdbcType=BIGINT},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="targetAdjustPrice != null">
+        #{targetAdjustPrice,jdbcType=INTEGER},
+      </if>
+      <if test="priceModification != null">
+        #{priceModification,jdbcType=REAL},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveStage != null">
+        #{approveStage,jdbcType=INTEGER},
+      </if>
+      <if test="approveResult != null">
+        #{approveResult,jdbcType=BIT},
+      </if>
+      <if test="proposeTime != null">
+        #{proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustReason != null">
+        #{adjustReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tianyi.goods.entity.GoodsPriceProposeExample" resultType="java.lang.Long">
+    select count(*) from t_goods_price_propose
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_goods_price_propose
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.proposerId != null">
+        proposer_id = #{record.proposerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.commodityId != null">
+        commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.targetAdjustPrice != null">
+        target_adjust_price = #{record.targetAdjustPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.priceModification != null">
+        price_modification = #{record.priceModification,jdbcType=REAL},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.approveStage != null">
+        approve_stage = #{record.approveStage,jdbcType=INTEGER},
+      </if>
+      <if test="record.approveResult != null">
+        approve_result = #{record.approveResult,jdbcType=BIT},
+      </if>
+      <if test="record.proposeTime != null">
+        propose_time = #{record.proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adjustReason != null">
+        adjust_reason = #{record.adjustReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_goods_price_propose
+    set id = #{record.id,jdbcType=INTEGER},
+      proposer_id = #{record.proposerId,jdbcType=BIGINT},
+      commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      target_adjust_price = #{record.targetAdjustPrice,jdbcType=INTEGER},
+      price_modification = #{record.priceModification,jdbcType=REAL},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      approve_stage = #{record.approveStage,jdbcType=INTEGER},
+      approve_result = #{record.approveResult,jdbcType=BIT},
+      propose_time = #{record.proposeTime,jdbcType=TIMESTAMP},
+      adjust_reason = #{record.adjustReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_goods_price_propose
+    set id = #{record.id,jdbcType=INTEGER},
+      proposer_id = #{record.proposerId,jdbcType=BIGINT},
+      commodity_id = #{record.commodityId,jdbcType=BIGINT},
+      target_adjust_price = #{record.targetAdjustPrice,jdbcType=INTEGER},
+      price_modification = #{record.priceModification,jdbcType=REAL},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      approve_stage = #{record.approveStage,jdbcType=INTEGER},
+      approve_result = #{record.approveResult,jdbcType=BIT},
+      propose_time = #{record.proposeTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.goods.entity.GoodsPricePropose">
+    update t_goods_price_propose
+    <set>
+      <if test="proposerId != null">
+        proposer_id = #{proposerId,jdbcType=BIGINT},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=BIGINT},
+      </if>
+      <if test="targetAdjustPrice != null">
+        target_adjust_price = #{targetAdjustPrice,jdbcType=INTEGER},
+      </if>
+      <if test="priceModification != null">
+        price_modification = #{priceModification,jdbcType=REAL},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveStage != null">
+        approve_stage = #{approveStage,jdbcType=INTEGER},
+      </if>
+      <if test="approveResult != null">
+        approve_result = #{approveResult,jdbcType=BIT},
+      </if>
+      <if test="proposeTime != null">
+        propose_time = #{proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustReason != null">
+        adjust_reason = #{adjustReason,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tianyi.goods.entity.GoodsPricePropose">
+    update t_goods_price_propose
+    set proposer_id = #{proposerId,jdbcType=BIGINT},
+      commodity_id = #{commodityId,jdbcType=BIGINT},
+      target_adjust_price = #{targetAdjustPrice,jdbcType=INTEGER},
+      price_modification = #{priceModification,jdbcType=REAL},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      approve_stage = #{approveStage,jdbcType=INTEGER},
+      approve_result = #{approveResult,jdbcType=BIT},
+      propose_time = #{proposeTime,jdbcType=TIMESTAMP},
+      adjust_reason = #{adjustReason,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.goods.entity.GoodsPricePropose">
+    update t_goods_price_propose
+    set proposer_id = #{proposerId,jdbcType=BIGINT},
+      commodity_id = #{commodityId,jdbcType=BIGINT},
+      target_adjust_price = #{targetAdjustPrice,jdbcType=INTEGER},
+      price_modification = #{priceModification,jdbcType=REAL},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      approve_stage = #{approveStage,jdbcType=INTEGER},
+      approve_result = #{approveResult,jdbcType=BIT},
+      propose_time = #{proposeTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

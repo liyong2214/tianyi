@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyi.goods.mapper.GoodsKindsMapper">
+  <resultMap id="BaseResultMap" type="com.tianyi.goods.entity.GoodsKinds">
+    <id column="kind_id" jdbcType="BIGINT" property="kindId" />
+    <result column="kind_name" jdbcType="VARCHAR" property="kindName" />
+    <result column="p_kind_id" jdbcType="BIGINT" property="pKindId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tianyi.goods.entity.GoodsKinds">
+    <result column="des" jdbcType="LONGVARCHAR" property="des" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    kind_id, kind_name, p_kind_id
+  </sql>
+  <sql id="Blob_Column_List">
+    des
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tianyi.goods.entity.GoodsKindsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods_kinds
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.tianyi.goods.entity.GoodsKindsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_goods_kinds
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods_kinds
+    where kind_id = #{kindId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_goods_kinds
+    where kind_id = #{kindId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tianyi.goods.entity.GoodsKindsExample">
+    delete from t_goods_kinds
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.goods.entity.GoodsKinds">
+    <selectKey keyProperty="kindId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_goods_kinds (kind_name, p_kind_id, des
+      )
+    values (#{kindName,jdbcType=VARCHAR}, #{pKindId,jdbcType=BIGINT}, #{des,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.goods.entity.GoodsKinds">
+    <selectKey keyProperty="kindId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_goods_kinds
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="kindName != null">
+        kind_name,
+      </if>
+      <if test="pKindId != null">
+        p_kind_id,
+      </if>
+      <if test="des != null">
+        des,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="kindName != null">
+        #{kindName,jdbcType=VARCHAR},
+      </if>
+      <if test="pKindId != null">
+        #{pKindId,jdbcType=BIGINT},
+      </if>
+      <if test="des != null">
+        #{des,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tianyi.goods.entity.GoodsKindsExample" resultType="java.lang.Long">
+    select count(*) from t_goods_kinds
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_goods_kinds
+    <set>
+      <if test="record.kindId != null">
+        kind_id = #{record.kindId,jdbcType=BIGINT},
+      </if>
+      <if test="record.kindName != null">
+        kind_name = #{record.kindName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pKindId != null">
+        p_kind_id = #{record.pKindId,jdbcType=BIGINT},
+      </if>
+      <if test="record.des != null">
+        des = #{record.des,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_goods_kinds
+    set kind_id = #{record.kindId,jdbcType=BIGINT},
+      kind_name = #{record.kindName,jdbcType=VARCHAR},
+      p_kind_id = #{record.pKindId,jdbcType=BIGINT},
+      des = #{record.des,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_goods_kinds
+    set kind_id = #{record.kindId,jdbcType=BIGINT},
+      kind_name = #{record.kindName,jdbcType=VARCHAR},
+      p_kind_id = #{record.pKindId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.goods.entity.GoodsKinds">
+    update t_goods_kinds
+    <set>
+      <if test="kindName != null">
+        kind_name = #{kindName,jdbcType=VARCHAR},
+      </if>
+      <if test="pKindId != null">
+        p_kind_id = #{pKindId,jdbcType=BIGINT},
+      </if>
+      <if test="des != null">
+        des = #{des,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where kind_id = #{kindId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tianyi.goods.entity.GoodsKinds">
+    update t_goods_kinds
+    set kind_name = #{kindName,jdbcType=VARCHAR},
+      p_kind_id = #{pKindId,jdbcType=BIGINT},
+      des = #{des,jdbcType=LONGVARCHAR}
+    where kind_id = #{kindId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.goods.entity.GoodsKinds">
+    update t_goods_kinds
+    set kind_name = #{kindName,jdbcType=VARCHAR},
+      p_kind_id = #{pKindId,jdbcType=BIGINT}
+    where kind_id = #{kindId,jdbcType=BIGINT}
+  </update>
+</mapper>
