@@ -20,7 +20,7 @@
         <pagehelper>5.1.5</pagehelper>
         <mybatis-spring>1.3.2</mybatis-spring>
         <spring>5.1.5.RELEASE</spring>
-        <jackson-databind>2.9.8</jackson-databind>
+        <jackson-databind>2.9.10.3</jackson-databind>
         <junit>4.12</junit>
         <mybatis-generator>1.3.2</mybatis-generator>
         <beanutils>1.3.9</beanutils>
