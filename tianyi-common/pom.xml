@@ -14,7 +14,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
 
-        <mysql>5.1.48</mysql>
+        <mysql>8.0.16</mysql>
         <mybatis>3.4.6</mybatis>
         <druid>1.1.19</druid>
         <pagehelper>5.1.5</pagehelper>
